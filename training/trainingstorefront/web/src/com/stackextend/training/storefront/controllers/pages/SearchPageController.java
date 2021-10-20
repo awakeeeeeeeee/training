@@ -10,6 +10,7 @@
  */
 package com.stackextend.training.storefront.controllers.pages;
 
+import com.stackextend.training.facades.service.TrainingProductSearchFacade;
 import de.hybris.platform.acceleratorcms.model.components.SearchBoxComponentModel;
 import de.hybris.platform.acceleratorservices.controllers.page.PageType;
 import de.hybris.platform.acceleratorservices.customer.CustomerLocationService;
@@ -82,8 +83,12 @@ public class SearchPageController extends AbstractSearchPageController
 	@Resource(name = "cmsComponentService")
 	private CMSComponentService cmsComponentService;
 
+	@Resource
+	private TrainingProductSearchFacade trainingProductSearchFacade;
+
 	@RequestMapping(method = RequestMethod.GET, params = "!q")
 	public String textSearch(@RequestParam(value = "text", defaultValue = "") final String searchText,
+							 @RequestParam(value = "searchType", defaultValue = "") final String searchType,
 			final HttpServletRequest request, final Model model) throws CMSItemNotFoundException
 	{
 		if (StringUtils.isNotBlank(searchText))
@@ -98,7 +103,12 @@ public class SearchPageController extends AbstractSearchPageController
 			ProductSearchPageData<SearchStateData, ProductData> searchPageData = null;
 			try
 			{
-				searchPageData = encodeSearchPageData(productSearchFacade.textSearch(searchState, pageableData));
+				if(StringUtils.isEmpty(searchText)){
+					searchPageData = encodeSearchPageData(productSearchFacade.textSearch(searchState, pageableData));
+				}else {
+					searchPageData = encodeSearchPageData(trainingProductSearchFacade.textArticleSearch(searchState, pageableData));
+				}
+
 			}
 			catch (final ConversionException e) // NOSONAR
 			{

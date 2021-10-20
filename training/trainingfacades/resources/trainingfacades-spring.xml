@@ -190,4 +190,15 @@
 	</bean>
 
 	<bean id="genderData" class="com.stackextend.training.facades.product.data.GenderData" scope="prototype"/>
+
+	<alias name="trainingProductSearchFacade" alias="defaultSolrProductSearchFacade"></alias>
+	<bean id="trainingProductSearchFacade" class="com.stackextend.training.facades.service.TrainingProductSearchFacade">
+		<property name="productSearchService" ref="commerceProductSearchService"/>
+		<property name="autocompleteService" ref="commerceAutocompleteService"/>
+		<property name="productCategorySearchPageConverter" ref="productCategorySearchPageConverter"/>
+		<property name="searchQueryDecoder" ref="solrSearchQueryDecoder"/>
+		<property name="autocompleteSuggestionConverter" ref="autocompleteSuggestionConverter"/>
+		<property name="threadContextService" ref="threadContextService"/>
+	</bean>
+
 </beans>
