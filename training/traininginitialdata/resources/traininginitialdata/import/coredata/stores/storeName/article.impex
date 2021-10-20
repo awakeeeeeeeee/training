@@ -1,0 +1,19 @@
+
+
+
+
+
+INSERT_UPDATE Article;name[unique=true];code;status(code)[default=UP];author;previewCount;content
+                     ;红楼梦            ;001 ;                   ;steven;0;测试内容1
+                     ;水浒传            ;002 ;                   ;david;0;测试内容2
+                     ;西游记            ;003 ;                   ;steven;0;测试内容3
+                     ;三国演义           ;004 ;                   ;david;0;测试内容4
+                     ;三言              ;005 ;                   ;steven;0;测试内容5
+                     ;二排              ;006 ;                   ;david;0;测试内容6
+                     ;金瓶梅            ;007 ;                   ;steven;0;测试内容7
+                     ;聊斋              ;008 ;                   ;david;0;测试内容8
+                     ;论语              ;009 ;                   ;steven;0;测试内容9
+                     ;老子              ;010 ;                   ;david;0;测试内容10
+                     ;道德经            ;011 ;                   ;steven;0;测试内容11
+
+
