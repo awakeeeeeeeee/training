@@ -47,7 +47,7 @@ public class TrainingSearchSolrQueryPopulator extends SearchSolrQueryPopulator {
 
         SearchQuery searchQuery = (SearchQuery) target.getSearchQuery();
         searchQuery.setCatalogVersions(Arrays.asList(catalogVersion));
-        searchQuery.setf
+
     }
 
     protected FacetSearchConfig getFacetSearchConfig(String code) {
