@@ -15,5 +15,8 @@
         <property name="searchIndexType" type="String"/>
     </bean>
 
+    <bean class="de.hybris.platform.commercefacades.search.data.SearchQueryData">
+        <property name="searchIndexType" type="String"/>
+    </bean>
 
 </beans>

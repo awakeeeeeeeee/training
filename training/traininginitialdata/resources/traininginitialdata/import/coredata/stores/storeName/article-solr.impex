@@ -24,13 +24,17 @@ INSERT_UPDATE SolrServerConfig;name[unique=true];mode(code);embeddedMaster
 INSERT_UPDATE SolrEndpointUrl;solrServerConfig(name)[unique=true];url[unique=true];master[unique=true,default=false]
                              ;$solrServerConfigName;http://localhost:8983/solr;true
 
-#定义index的配置，名称，批量提交的数量，线程数，以及提交的模式，二阶段提交或者DIRECT 直接提交，二阶段提交可以保证后面提交出错前面的回滚
+#定义index的配置，名称，批量提交的数量，线程数，以及提交的模式，二阶段提交TWO_PHASE或者DIRECT 直接提交，二阶段提交可以保证后面提交出错前面的回滚
+#二阶段提交会产生flip和flop的solr core进行切换，以一个作为副本，做index，如果失败了就用原来的副本，如果成功了就用新的index，并且删除原来的副本
 INSERT_UPDATE SolrIndexConfig;name[unique=true];batchSize;numberOfThreads;indexMode(code);
-                             ;$indexConfigName;100;1;TWO_PHASE;
+                             ;$indexConfigName;100;1;DIRECT;
 
 #定义solr查询配置描述，查询返回记录数
 INSERT_UPDATE SolrSearchConfig;description[unique=true];pageSize
                               ;$searchConfigName;20
+
+INSERT_UPDATE SolrSearchQueryTemplate;name[unique=true];indexedType(identifier)[unique=true];ftsQueryBuilder
+                                     ;DEFAULT;$solrIndexedType;defaultFreeTextQueryBuilder
 
 #定义solr index的类型以及排序顺序
 INSERT_UPDATE SolrIndexedType;identifier[unique=true];type(code);variant;sorts(&sortRefID)
@@ -46,8 +50,26 @@ INSERT_UPDATE SolrFacetSearchConfig;name[unique=true];description;indexNamePrefi
 
 #定义solr full index查询的数据源 和 solr update index查询的数据源
 INSERT_UPDATE SolrIndexerQuery;solrIndexedType(identifier)[unique=true];identifier[unique=true];type(code);injectCurrentDate[default=true];injectCurrentTime[default=true];injectLastIndexTime[default=true];query;user(uid)
-                              ;$solrIndexedType;$searchIndexNamePrefix-fullQuery;full;;;false;"SELECT {PK} FROM {Article}";admin
-                              ;$solrIndexedType;$searchIndexNamePrefix-updateQuery;update;;;;"select {pk} from {Article} where {modifiedtime} > ?lastIndexTime";admin
+                              ;$solrIndexedType;$searchIndexNamePrefix-fullQuery;full;;;false;"
+SELECT tbl.PK FROM (
+  {{
+  SELECT {PK} FROM {Product}
+  }}
+UNION
+  {{
+  SELECT {PK} FROM {Article}
+  }}
+) tbl";admin
+                              ;$solrIndexedType;$searchIndexNamePrefix-updateQuery;update;;;;"
+SELECT tbl.PK FROM (
+  {{
+  SELECT {PK} FROM {Product} WHERE {modifiedtime} >= ?lastIndexTime
+  }}
+UNION
+  {{
+  SELECT {PK} FROM {Article} WHERE {modifiedtime} >= ?lastIndexTime
+  }}
+) tbl";admin
 
 
 # Non-facet properties

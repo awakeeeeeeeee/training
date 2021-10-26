@@ -1,6 +1,6 @@
 
 
-
+$languages=en
 
 
 INSERT_UPDATE Article;name[unique=true];code;status(code)[default=UP];author;previewCount;content
@@ -15,5 +15,16 @@ INSERT_UPDATE Article;name[unique=true];code;status(code)[default=UP];author;pre
                      ;论语              ;009 ;                   ;steven;0;测试内容9
                      ;老子              ;010 ;                   ;david;0;测试内容10
                      ;道德经            ;011 ;                   ;steven;0;测试内容11
+                     ;a                ;012 ;                   ;steven;0;测试内容12
+                     ;b                ;013 ;                   ;david;0;测试内容13
+                     ;c                ;014 ;                   ;steven;0;测试内容14
+                     ;d                ;015 ;                   ;david;0;测试内容15
+                     ;e                ;016 ;                   ;steven;0;测试内容16
+                     ;f                ;017 ;                   ;david;0;测试内容17
+                     ;g                ;018 ;                   ;steven;0;测试内容18
+                     ;h                ;019 ;                   ;david;0;测试内容19
+                     ;i                ;020 ;                   ;steven;0;测试内容20
+                     ;j                ;021 ;                   ;david;0;测试内容21
+                     ;k                ;022 ;                   ;steven;0;测试内容22
 
 

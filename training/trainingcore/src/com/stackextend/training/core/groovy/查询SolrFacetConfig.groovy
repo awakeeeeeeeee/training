@@ -1,3 +1,5 @@
+package com.stackextend.training.core.groovy
+
 import de.hybris.platform.basecommerce.model.site.BaseSiteModel
 import de.hybris.platform.catalog.model.CatalogVersionModel
 import de.hybris.platform.servicelayer.search.FlexibleSearchQuery

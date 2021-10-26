@@ -574,7 +574,45 @@
 		<property name="facetSearchConfigService" ref="facetSearchConfigService" />
 		<property name="solrFacetSearchConfigSelectionStrategy" ref="solrFacetSearchConfigSelectionStrategy" />
 		<property name="searchQueryTemplateNameResolver" ref="searchQueryTemplateNameResolver"/>
+		<property name="trainingArticleSearchSolrQueryPopulator" ref="trainingArticleSearchSolrQueryPopulator"/>
 	</bean>
 
+	<bean id="trainingArticleSearchSolrQueryPopulator" class="com.stackextend.training.core.search.populator.TrainingArticleSearchSolrQueryPopulator">
+		<property name="flexibleSearchService" ref="flexibleSearchService"/>
+		<property name="catalogVersionService" ref="catalogVersionService" />
+		<property name="baseSiteService" ref="baseSiteService" />
+		<property name="commonI18NService" ref="commonI18NService" />
+		<property name="baseStoreService" ref="baseStoreService" />
+		<property name="facetSearchService" ref="facetSearchService" />
+		<property name="facetSearchConfigService" ref="facetSearchConfigService" />
+		<property name="solrFacetSearchConfigSelectionStrategy" ref="solrFacetSearchConfigSelectionStrategy" />
+		<property name="searchQueryTemplateNameResolver" ref="searchQueryTemplateNameResolver"/>
+	</bean>
+
+	<alias name="trainingDefaultFacetSearchStrategy" alias="defaultFacetSearchStrategy" />
+	<bean id="trainingDefaultFacetSearchStrategy" class="com.stackextend.training.core.search.strategy.TrainingDefaultFacetSearchStrategy">
+		<property name="solrSearchProviderFactory" ref="solrSearchProviderFactory" />
+		<property name="facetSearchContextFactory" ref="facetSearchContextFactory" />
+		<property name="facetSearchQueryConverter" ref="facetSearchQueryConverter" />
+		<property name="facetSearchResultConverter" ref="facetSearchResultConverter" />
+		<property name="solrIndexService" ref="solrIndexService" />
+		<property name="searchQueryLanguageResolver" ref="searchQueryLanguageResolver" />
+		<property name="searchQueryCurrencyResolver" ref="searchQueryCurrencyResolver" />
+		<property name="searchQueryKeywordsResolver" ref="searchQueryKeywordsResolver" />
+		<property name="searchQueryCatalogVersionsResolver" ref="searchQueryCatalogVersionsResolver" />
+	</bean>
+
+
+	<alias name="trainingSearchQueryTemplateNameResolver" alias="defaultSearchQueryTemplateNameResolver"/>
+	<bean name="trainingSearchQueryTemplateNameResolver" class="com.stackextend.training.core.search.resolver.TrainingSearchQueryTemplateNameResolver"/>
+
+
+	<alias name="defaultProductDataUrlResolver" alias="defaultProductDataUrlResolver"/>
+	<bean id="defaultProductDataUrlResolver"
+		  class="de.hybris.platform.commercefacades.url.impl.DefaultProductDataUrlResolver">
+		<property name="threadContextService" ref="threadContextService"/>
+		<property name="productService" ref="productService"/>
+		<property name="productModelUrlResolver" ref="productModelUrlResolver"/>
+	</bean>
 
 </beans>

@@ -10,6 +10,7 @@
  */
 package com.stackextend.training.storefront.controllers.pages;
 
+import com.stackextend.training.facades.service.ArticleSearchFacade;
 import com.stackextend.training.facades.service.TrainingProductSearchFacade;
 import de.hybris.platform.acceleratorcms.model.components.SearchBoxComponentModel;
 import de.hybris.platform.acceleratorservices.controllers.page.PageType;
@@ -32,6 +33,7 @@ import de.hybris.platform.commerceservices.search.facetdata.FacetRefinement;
 import de.hybris.platform.commerceservices.search.facetdata.FacetValueData;
 import de.hybris.platform.commerceservices.search.facetdata.ProductSearchPageData;
 import de.hybris.platform.commerceservices.search.pagedata.PageableData;
+import de.hybris.platform.commerceservices.search.solrfacetsearch.data.SolrSearchQueryData;
 import de.hybris.platform.servicelayer.dto.converter.ConversionException;
 
 import java.io.UnsupportedEncodingException;
@@ -41,6 +43,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -86,9 +89,12 @@ public class SearchPageController extends AbstractSearchPageController
 	@Resource
 	private TrainingProductSearchFacade trainingProductSearchFacade;
 
+	@Resource
+	private ArticleSearchFacade articleSearchFacade;
+
 	@RequestMapping(method = RequestMethod.GET, params = "!q")
 	public String textSearch(@RequestParam(value = "text", defaultValue = "") final String searchText,
-							 @RequestParam(value = "searchType", defaultValue = "") final String searchType,
+							 @RequestParam(value = "searchType", defaultValue = "")  String searchType,
 			final HttpServletRequest request, final Model model) throws CMSItemNotFoundException
 	{
 		if (StringUtils.isNotBlank(searchText))
@@ -98,17 +104,37 @@ public class SearchPageController extends AbstractSearchPageController
 			final SearchStateData searchState = new SearchStateData();
 			final SearchQueryData searchQueryData = new SearchQueryData();
 			searchQueryData.setValue(searchText);
+			//mock test article
+			searchType = "article";
+			searchQueryData.setSearchIndexType(searchType);
 			searchState.setQuery(searchQueryData);
+
+			if(LOG.isDebugEnabled()){
+				LOG.debug("test debug");
+				System.out.println("123123123213123123123123");
+			}
+			LOG.info("searchType: " + searchType);
 
 			ProductSearchPageData<SearchStateData, ProductData> searchPageData = null;
 			try
 			{
-				if(StringUtils.isEmpty(searchText)){
+				if(StringUtils.isEmpty(searchType)){
 					searchPageData = encodeSearchPageData(productSearchFacade.textSearch(searchState, pageableData));
 				}else {
 					searchPageData = encodeSearchPageData(trainingProductSearchFacade.textArticleSearch(searchState, pageableData));
-				}
+					try {
+						//独立查询的方法 不带任何条件，不走ootb 默认的搜索
+//						trainingProductSearchFacade.articleSearchTest();
 
+//						String query = ":sort:editStatus:Approve:articleType:%s:articleCat:%s";
+//						String query = ":sort:code:001";
+//						LOG.info("query str: " + query);
+//						ProductSearchPageData<SolrSearchQueryData, ProductSearchPageData> pageData = articleSearchFacade.serviceTypeSearch(query, null, null);
+//						LOG.info("pageData: " + pageData);
+					}catch (Exception e){
+						LOG.error(e.getMessage());
+					}
+				}
 			}
 			catch (final ConversionException e) // NOSONAR
 			{

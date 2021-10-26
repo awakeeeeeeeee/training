@@ -142,6 +142,7 @@
                         <description></description>
                         <modifiers optional="true" read="true" write="true"></modifiers>
                         <persistence type="property"/>
+                        <defaultvalue>em().getEnumerationValue("ArticleStatusEnum","UP")</defaultvalue>
                     </attribute>
                     <attribute qualifier="content" type="java.lang.String">
                         <modifiers optional="false" read="true" write="true"></modifiers>

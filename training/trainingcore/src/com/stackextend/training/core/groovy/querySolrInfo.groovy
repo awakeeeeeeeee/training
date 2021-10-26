@@ -1,3 +1,5 @@
+package com.stackextend.training.core.groovy
+
 import de.hybris.platform.processengine.model.BusinessProcessModel
 import de.hybris.platform.servicelayer.search.FlexibleSearchQuery
 import de.hybris.platform.servicelayer.search.SearchResult

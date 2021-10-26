@@ -199,6 +199,40 @@
 		<property name="searchQueryDecoder" ref="solrSearchQueryDecoder"/>
 		<property name="autocompleteSuggestionConverter" ref="autocompleteSuggestionConverter"/>
 		<property name="threadContextService" ref="threadContextService"/>
+		<property name="facetSearchConfigService" ref="facetSearchConfigService" />
+		<property name="facetSearchService" ref="facetSearchService"/>
+
+	</bean>
+
+
+	<alias name="articleSearchFacade" alias="defaultSolrProductSearchFacade"/>
+	<bean id="articleSearchFacade" class="com.stackextend.training.facades.service.ArticleSearchFacade">
+		<property name="productSearchService" ref="commerceProductSearchService"/>
+		<property name="autocompleteService" ref="commerceAutocompleteService"/>
+		<property name="productCategorySearchPageConverter" ref="prodcommerceSearchSolrQueryPopulatoructCategorySearchPageConverter"/>
+		<property name="searchQueryDecoder" ref="solrSearchQueryDecoder"/>
+		<property name="autocompleteSuggestionConverter" ref="autocompleteSuggestionConverter"/>
+		<property name="threadContextService" ref="threadContextService"/>
+
+		<property name="searchQueryPageableConverter" ref="commerceSearchQueryPageableConverter" />
+		<property name="searchRequestConverter" ref="commerceSolrSearchRequestConverter" />
+		<property name="searchResponseConverter" ref="serviceTypeSolrSearchResponseConverter" />
+	</bean>
+
+	<bean id="serviceTypeSolrSearchResponseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.commerceservices.search.facetdata.ProductSearchPageData" />
+		<property name="populators">
+			<list>
+				<ref bean="commerceSearchResponseQueryPopulator" />
+				<ref bean="commerceSearchResponsePaginationPopulator" />
+				<ref bean="commerceSearchResponseResultsPopulator" />
+				<ref bean="commerceSearchResponseFacetsPopulator" />
+				<ref bean="commerceSearchResponseFacetFilterPopulator" />
+				<ref bean="commerceSearchResponseBreadcrumbsPopulator" />
+				<ref bean="commerceSearchResponseSortsPopulator" />
+				<ref bean="commerceSearchResponseFreeTextSearchPopulator" />
+			</list>
+		</property>
 	</bean>
 
 </beans>

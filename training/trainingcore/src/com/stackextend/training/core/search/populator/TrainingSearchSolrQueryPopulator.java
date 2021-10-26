@@ -7,6 +7,7 @@ import de.hybris.platform.commerceservices.search.solrfacetsearch.data.SearchQue
 import de.hybris.platform.commerceservices.search.solrfacetsearch.data.SolrSearchQueryData;
 import de.hybris.platform.commerceservices.search.solrfacetsearch.data.SolrSearchRequest;
 import de.hybris.platform.commerceservices.search.solrfacetsearch.populators.SearchSolrQueryPopulator;
+import de.hybris.platform.core.model.type.ComposedTypeModel;
 import de.hybris.platform.servicelayer.search.FlexibleSearchQuery;
 import de.hybris.platform.servicelayer.search.FlexibleSearchService;
 import de.hybris.platform.servicelayer.search.SearchResult;
@@ -22,49 +23,31 @@ public class TrainingSearchSolrQueryPopulator extends SearchSolrQueryPopulator {
 
     private static final Logger LOG = Logger.getLogger(TrainingSearchSolrQueryPopulator.class);
     private FlexibleSearchService flexibleSearchService;
+    private TrainingArticleSearchSolrQueryPopulator trainingArticleSearchSolrQueryPopulator;
 
     @Override
     public void populate(SearchQueryPageableData source, SolrSearchRequest target) {
-        super.populate(source, target);
-        CatalogVersionModel catalogVersion;
-        FacetSearchConfig facetSearchConfig;
-        SolrSearchQueryData solrSearchQueryData = (SolrSearchQueryData) source.getSearchQueryData();
-        IndexedType indexedType = (IndexedType) target.getIndexedType();
-        if(solrSearchQueryData != null && "article".equals(solrSearchQueryData.getSearchIndexType()) && indexedType.getIdentifier().contains("article")){
-            catalogVersion = getCatalogVersionService().getCatalogVersion("articleCatalog", "Online");
-            target.setCatalogVersions(Arrays.asList(catalogVersion));
-            facetSearchConfig = this.getFacetSearchConfig(indexedType.getCode());
-            target.setFacetSearchConfig(facetSearchConfig);
-            target.setIndexedType(getIndexedType(facetSearchConfig));
 
+        SolrSearchQueryData searchQueryData = (SolrSearchQueryData) source.getSearchQueryData();
+        if(searchQueryData.getSearchIndexType() != null && "article".equals(searchQueryData.getSearchIndexType())){
+
+            trainingArticleSearchSolrQueryPopulator.populate(source,target);
         }else {
-            catalogVersion = getCatalogVersionService().getCatalogVersion("electronicsProductCatalog", "Online");
-            target.setCatalogVersions(Arrays.asList(catalogVersion));
-            facetSearchConfig = this.getFacetSearchConfig("electronics");
-            target.setFacetSearchConfig(facetSearchConfig);
-            target.setIndexedType(getIndexedType(facetSearchConfig));
+            super.populate(source,target);
+//            IndexedType indexedType = (IndexedType) target.getIndexedType();
+//            ComposedTypeModel composedType = indexedType.getComposedType();
+//            Boolean catalogItemType = composedType.getCatalogItemType();
+//            LOG.info(catalogItemType);
+//
+//            SearchQuery searchQuery = (SearchQuery) target.getSearchQuery();
+//            IndexedType indexedType1 = searchQuery.getIndexedType();
+//            ComposedTypeModel composedType1 = indexedType1.getComposedType();
+//            Boolean catalogItemType1 = composedType1.getCatalogItemType();
+//            LOG.info(catalogItemType1);
         }
-
-        SearchQuery searchQuery = (SearchQuery) target.getSearchQuery();
-        searchQuery.setCatalogVersions(Arrays.asList(catalogVersion));
-        searchQuery.setf
     }
 
-    protected FacetSearchConfig getFacetSearchConfig(String code) {
-        FacetSearchConfig facetSearchConfig;
-        try{
-            String sql = "select {pk} from {SolrFacetSearchConfig} where {name} like '" + code.toLowerCase() + "%'";
-            FlexibleSearchQuery query = new FlexibleSearchQuery(sql);
-            SearchResult<SolrFacetSearchConfigModel> searchResult = flexibleSearchService.search(query);
-            SolrFacetSearchConfigModel solrFacetSearchConfigModel = searchResult.getResult().get(0);
-            facetSearchConfig = getFacetSearchConfigService().getConfiguration(solrFacetSearchConfigModel.getName());
-        }catch (Exception e){
-            LOG.error("getFacetSearchConfig error: " +e.getMessage());
-            facetSearchConfig = null;
-        }
 
-        return facetSearchConfig;
-    }
 
 
 
@@ -75,5 +58,13 @@ public class TrainingSearchSolrQueryPopulator extends SearchSolrQueryPopulator {
 
     public void setFlexibleSearchService(FlexibleSearchService flexibleSearchService) {
         this.flexibleSearchService = flexibleSearchService;
+    }
+
+    public TrainingArticleSearchSolrQueryPopulator getTrainingArticleSearchSolrQueryPopulator() {
+        return trainingArticleSearchSolrQueryPopulator;
+    }
+
+    public void setTrainingArticleSearchSolrQueryPopulator(TrainingArticleSearchSolrQueryPopulator trainingArticleSearchSolrQueryPopulator) {
+        this.trainingArticleSearchSolrQueryPopulator = trainingArticleSearchSolrQueryPopulator;
     }
 }
