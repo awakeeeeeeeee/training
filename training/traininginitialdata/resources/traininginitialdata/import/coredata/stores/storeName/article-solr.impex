@@ -6,8 +6,8 @@ $solrIndexedType=articleType
 $facetSearchConfigName=articleIndex
 $facetSearchConfigDescription=article solr index
 $searchIndexNamePrefix=article
-$indexLanguages=ja,en,de,zh
-$indexCurrencies=USD
+$indexLanguages=zh
+$indexCurrencies=CNY
 
 
 $catalogVersions=catalogVersions(catalog(id),version);
@@ -27,7 +27,7 @@ INSERT_UPDATE SolrEndpointUrl;solrServerConfig(name)[unique=true];url[unique=tru
 #定义index的配置，名称，批量提交的数量，线程数，以及提交的模式，二阶段提交TWO_PHASE或者DIRECT 直接提交，二阶段提交可以保证后面提交出错前面的回滚
 #二阶段提交会产生flip和flop的solr core进行切换，以一个作为副本，做index，如果失败了就用原来的副本，如果成功了就用新的index，并且删除原来的副本
 INSERT_UPDATE SolrIndexConfig;name[unique=true];batchSize;numberOfThreads;indexMode(code);
-                             ;$indexConfigName;100;1;DIRECT;
+                             ;$indexConfigName;100;1;DIRECT;`
 
 #定义solr查询配置描述，查询返回记录数
 INSERT_UPDATE SolrSearchConfig;description[unique=true];pageSize
@@ -50,35 +50,31 @@ INSERT_UPDATE SolrFacetSearchConfig;name[unique=true];description;indexNamePrefi
 
 #定义solr full index查询的数据源 和 solr update index查询的数据源
 INSERT_UPDATE SolrIndexerQuery;solrIndexedType(identifier)[unique=true];identifier[unique=true];type(code);injectCurrentDate[default=true];injectCurrentTime[default=true];injectLastIndexTime[default=true];query;user(uid)
-                              ;$solrIndexedType;$searchIndexNamePrefix-fullQuery;full;;;false;"
-SELECT tbl.PK FROM (
-  {{
-  SELECT {PK} FROM {Product}
-  }}
-UNION
-  {{
-  SELECT {PK} FROM {Article}
-  }}
-) tbl";admin
-                              ;$solrIndexedType;$searchIndexNamePrefix-updateQuery;update;;;;"
-SELECT tbl.PK FROM (
-  {{
-  SELECT {PK} FROM {Product} WHERE {modifiedtime} >= ?lastIndexTime
-  }}
-UNION
-  {{
-  SELECT {PK} FROM {Article} WHERE {modifiedtime} >= ?lastIndexTime
-  }}
-) tbl";admin
+                              ;$solrIndexedType;$searchIndexNamePrefix-fullQuery;full;;;false;"SELECT {PK} FROM {Article}";admin
+                              ;$solrIndexedType;$searchIndexNamePrefix-updateQuery;update;;;;"SELECT {PK} FROM {Article} WHERE {modifiedtime} >= ?lastIndexTime";admin
 
 
 # Non-facet properties
 INSERT_UPDATE SolrIndexedProperty;solrIndexedType(identifier)[unique=true];name[unique=true];type(code);sortableType(code);currency[default=false];localized[default=false];multiValue[default=false];useForSpellchecking[default=false];useForAutocomplete[default=false];fieldValueProvider;valueProviderParameter
-                                 ;$solrIndexedType; code               ;string ;            ;    ;    ;    ;    ;    ;
-                                 ;$solrIndexedType; name                   ;text   ;sortabletext;    ;true;    ;true;true;springELValueProvider;
-#                                 ;$solrIndexedType; status               ;string   ;            ;    ;true;    ;    ;    ;articleStatusDisplayValueProvider;
+                                 ;$solrIndexedType; code               ;string ;            ;    ;    ;    ;    ;    ;springELValueProvider;code
+                                 ;$solrIndexedType; name                   ;string;   ;;    ;;    ;true;;
                                  ;$solrIndexedType; content               ;string ;            ;    ;    ;    ;    ;    ;
-                                 ;$solrIndexedType; status               ;string ;            ;    ;    ;    ;    ;    ;
+                                 ;$solrIndexedType; status               ;string ;            ;    ;    ;    ;    ;    ;articleStatusDisplayValueProvider
+
+
+# Other facet properties
+INSERT_UPDATE SolrIndexedProperty;solrIndexedType(identifier)[unique=true];name[unique=true];type(code);sortableType(code);currency[default=false];localized[default=false];multiValue[default=false];facet[default=true];facetType(code);facetSort(code);priority;visible;useForSpellchecking[default=false];useForAutocomplete[default=false];fieldValueProvider;facetDisplayNameProvider;customFacetSortProvider;topValuesProvider;rangeSets(name)
+                                 ;$solrIndexedType; author        	;string ;	 ; ;     ;     ;     ;MultiSelectOr ;Alpha ; 4000;true;     ;     ; 	;articleFacetAuthorValueProvider
+
+# Non-facet properties
+#设置查询优化，自由文本 段落 facet 查询等
+INSERT_UPDATE SolrSearchQueryProperty;indexedProperty(name, solrIndexedType(identifier))[unique=true];searchQueryTemplate(name, indexedType(identifier))[unique=true][default=DEFAULT:$solrIndexedType];facet;ftsPhraseQuery[default=false];ftsPhraseQueryBoost;ftsQuery[default=false];ftsQueryBoost;ftsFuzzyQuery[default=false];ftsFuzzyQueryBoost;ftsWildcardQuery[default=false];ftsWildcardQueryType(code)[default=POSTFIX];ftsWildcardQueryBoost;ftsWildcardQueryMinTermLength;includeInResponse[default=true]
+                                     ;name:$solrIndexedType                              ;	 ;	  ;TRUE;100 ;TRUE;50;FALSE;25 ;  ;   	   ;  ;
+                                     ;code:$solrIndexedType                          ;	 ;	  ;TRUE;50 ;TRUE;25;FALSE;10 ;  ;       ;  ;
+#                                     ;author:$solrIndexedType                        ;   ;TRUE   ;    ;   ;    ;  ;     ;   ;  ;       ;  ;
+
+
+INSERT_UPDATE SolrIndexedProperty;solrIndexedType(identifier)[unique=true];name[unique=true];type(code);sortableType(code);currency[default=false];localized[default=false];multiValue[default=false];facet[default=false];facetType(code);facetSort(code);priority;visible;fieldValueProvider;customFacetSortProvider;rangeSets(name);$classAttributeAssignment
 
 
 ## Category fields
@@ -93,10 +89,6 @@ INSERT_UPDATE SolrIndexedProperty;solrIndexedType(identifier)[unique=true];name[
 #                                 ;$solrIndexedType; category      	;string;;;Refine		;Alpha; 6000;true;;atddElectronicsCategoryCodeValueProvider;categoryFacetDisplayNameProvider;defaultTopValuesProvider
 #                                 ;$solrIndexedType; brand         	;string;;;Refine		;Alpha; 5000;true;;atddElectronicsBrandCategoryCodeValueProvider;categoryFacetDisplayNameProvider;defaultTopValuesProvider
 
-# Other facet properties
-INSERT_UPDATE SolrIndexedProperty;solrIndexedType(identifier)[unique=true];name[unique=true];type(code);sortableType(code);currency[default=false];localized[default=false];multiValue[default=false];facet[default=true];facetType(code);facetSort(code);priority;visible;useForSpellchecking[default=false];useForAutocomplete[default=false];fieldValueProvider;facetDisplayNameProvider;customFacetSortProvider;topValuesProvider;rangeSets(name)
-                                 ;$solrIndexedType; author        	;string ;	 ;true ;     ;     ;     ;MultiSelectOr ;Alpha ; 4000;true;     ;     ; 	;articleFacetAuthorValueProvider
-
 
 
 INSERT_UPDATE SolrSort;&sortRefID;indexedType(identifier)[unique=true];code[unique=true];useBoost
@@ -106,3 +98,4 @@ INSERT_UPDATE SolrSort;&sortRefID;indexedType(identifier)[unique=true];code[uniq
 #                      ;sortRef4;$solrIndexedType;name-desc;false
 #                      ;sortRef5;$solrIndexedType;price-asc;false
 #                      ;sortRef6;$solrIndexedType;price-desc;false
+

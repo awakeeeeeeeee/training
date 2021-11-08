@@ -74,7 +74,8 @@ public class TrainingArticleSearchSolrQueryPopulator extends TrainingSearchSolrQ
         }
 
         searchQuery.setCatalogVersions(target.getCatalogVersions());
-        searchQuery.setCurrency(getCommonI18NService().getCurrentCurrency().getIsocode());
+        String currency = getCommonI18NService().getCurrency("CNY").getIsocode();
+        searchQuery.setCurrency(currency);
         searchQuery.setLanguage(getCommonI18NService().getCurrentLanguage().getIsocode());
 
         // enable spell checker

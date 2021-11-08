@@ -10,6 +10,7 @@ import de.hybris.platform.commerceservices.search.facetdata.ProductCategorySearc
 import de.hybris.platform.commerceservices.search.facetdata.ProductSearchPageData;
 import de.hybris.platform.commerceservices.search.pagedata.PageableData;
 import de.hybris.platform.commerceservices.search.solrfacetsearch.data.SolrSearchQueryData;
+import de.hybris.platform.commerceservices.threadcontext.ThreadContextService;
 import de.hybris.platform.solrfacetsearch.config.FacetSearchConfig;
 import de.hybris.platform.solrfacetsearch.config.FacetSearchConfigService;
 import de.hybris.platform.solrfacetsearch.config.IndexedType;
@@ -18,6 +19,7 @@ import de.hybris.platform.solrfacetsearch.search.FacetSearchException;
 import de.hybris.platform.solrfacetsearch.search.FacetSearchService;
 import de.hybris.platform.solrfacetsearch.search.SearchQuery;
 import de.hybris.platform.solrfacetsearch.search.SearchResult;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Map;
@@ -55,6 +57,24 @@ public class TrainingProductSearchFacade extends DefaultSolrProductSearchFacade 
         SearchResult searchResult = facetSearchService.search(searchQuery);
 
         return searchResult;
+    }
+
+
+    //重写默认的text search，但是不调用getProductCategorySearchPageConverter.convert(),如果调用会出错，默认ootb会查询产品，但是这里搜索的不是产品
+    public ProductSearchPageData<SearchStateData, ProductSearchPageData> articleTextSearch(final SearchStateData searchState,
+                                                                   final PageableData pageableData)
+    {
+        Assert.notNull(searchState, "SearchStateData must not be null.");
+
+        return getThreadContextService().executeInContext(
+                new ThreadContextService.Executor<ProductSearchPageData<SearchStateData, ProductSearchPageData>, ThreadContextService.Nothing>()
+                {
+                    @Override
+                    public ProductSearchPageData<SearchStateData, ProductSearchPageData> execute()
+                    {
+                        return getProductSearchService().searchAgain(decodeState(searchState, null), pageableData);
+                    }
+                });
     }
 
 

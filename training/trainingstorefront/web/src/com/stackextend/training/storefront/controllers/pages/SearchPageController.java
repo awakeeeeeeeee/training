@@ -92,6 +92,9 @@ public class SearchPageController extends AbstractSearchPageController
 	@Resource
 	private ArticleSearchFacade articleSearchFacade;
 
+
+
+
 	@RequestMapping(method = RequestMethod.GET, params = "!q")
 	public String textSearch(@RequestParam(value = "text", defaultValue = "") final String searchText,
 							 @RequestParam(value = "searchType", defaultValue = "")  String searchType,
@@ -121,16 +124,14 @@ public class SearchPageController extends AbstractSearchPageController
 				if(StringUtils.isEmpty(searchType)){
 					searchPageData = encodeSearchPageData(productSearchFacade.textSearch(searchState, pageableData));
 				}else {
-					searchPageData = encodeSearchPageData(trainingProductSearchFacade.textArticleSearch(searchState, pageableData));
+//					searchPageData = encodeSearchPageData(trainingProductSearchFacade.textArticleSearch(searchState, pageableData));
 					try {
 						//独立查询的方法 不带任何条件，不走ootb 默认的搜索
 //						trainingProductSearchFacade.articleSearchTest();
 
 //						String query = ":sort:editStatus:Approve:articleType:%s:articleCat:%s";
 //						String query = ":sort:code:001";
-//						LOG.info("query str: " + query);
 //						ProductSearchPageData<SolrSearchQueryData, ProductSearchPageData> pageData = articleSearchFacade.serviceTypeSearch(query, null, null);
-//						LOG.info("pageData: " + pageData);
 					}catch (Exception e){
 						LOG.error(e.getMessage());
 					}

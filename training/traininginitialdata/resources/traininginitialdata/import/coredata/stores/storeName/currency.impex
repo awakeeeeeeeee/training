@@ -1,0 +1,11 @@
+
+$lang=zh
+
+INSERT_UPDATE Currency;isocode[unique=true];name[lang=$lang]
+               ;CNY;"中国"
+
+
+
+
+INSERT_UPDATE Currency;isocode[unique=true];conversion;digits;symbol
+                      ;CNY;1;2;¥
