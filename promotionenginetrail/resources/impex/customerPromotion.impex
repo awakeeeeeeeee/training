@@ -1,0 +1,29 @@
+$lang = en
+$trLang = zh
+
+############################# CONDITIONS ##########################
+
+INSERT_UPDATE RuleConditionDefinitionCategory; id[unique = true]; name[lang = $lang]; name[lang = $trLang]; priority
+                                             ; general              ; general               ; general                 ; 1250
+
+INSERT_UPDATE RuleConditionDefinition; id[unique = true]                        ; name[lang = $lang]               ; name[lang = $trLang]             ; priority; breadcrumb[lang = $lang]                                     ; breadcrumb[lang = $trLang]                                   ; allowsChildren; translatorId                                               ; translatorParameters; categories(id)
+                                     ; y_qualifying_searchedWord            ; Searched Word              ; Searched Word             ; 1111    ; Searched Word                                          ; How Many Passenger?                                          ; false         ; ruleQualifyingSearchedWordConditionTranslator          ;                     ; general
+
+INSERT_UPDATE RuleConditionDefinitionParameter; definition(id)[unique = true]          ; id[unique = true]   ; priority; name[lang = $lang]            ; name[lang = $trLang]          ; description[lang = $lang]                                                           ; description[lang = $trLang]                                                         ; type                                                        ; value              ; required[default = true]; validators;
+                                              ; y_qualifying_searchedWord          ; searchedWord    ; 1111    ; Searched Word            ; Searched Word            ; Searched Word                                                                  ; Searched Word                                                                  ; java.lang.String                                          ;                    ; true                    ;
+
+INSERT_UPDATE RuleConditionDefinitionRuleTypeMapping; definition(id)[unique = true]            ; ruleType(code)[unique = true]
+                                                    ; y_qualifying_searchedWord            ; PromotionSourceRule
+
+
+############################## Actions ###########################
+
+INSERT_UPDATE RuleActionDefinition; id[unique = true]                          ; name[lang = $lang]                               ; name[lang = $trLang]                             ; priority; breadcrumb[lang = $lang]                                             ; breadcrumb[lang = $trLang]                                           ; translatorId                   ; translatorParameters                                         ; categories(id)
+                                  ; searched_word_percentage_discount ; Percentage discount by the word   ; Percentage discount by the word   ; 1400    ; Apply {value} discount by the word                    ; Apply {value} discount by the word                    ; ruleExecutableActionTranslator ; actionId->ruleSearchedWordAddScoreAction       ; general
+
+
+INSERT_UPDATE RuleActionDefinitionParameter; definition(id)[unique = true]              ; id[unique = true]; priority; name[lang = $lang]        ; name[lang = $trLang]      ; description[lang = $lang]                                                          ; description[lang = $trLang]                                                        ; type                                         ; value; required[default = true]; validators
+                                           ; searched_word_percentage_discount ; value            ; 1000    ; Percentage discount value ; Percentage discount value ; Percentage discount that will be applied by the word                ; Percentage discount that will be applied by the word                ; java.math.BigDecimal                         ;      ;                         ; rulePercentageParameterValidator
+
+INSERT_UPDATE RuleActionDefinitionRuleTypeMapping; definition(id)[unique = true]              ; ruleType(code)[default = PromotionSourceRule][unique = true]
+                                                 ; searched_word_percentage_discount ;

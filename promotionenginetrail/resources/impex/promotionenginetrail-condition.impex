@@ -2,5 +2,11 @@
 
 
 
-INSERT_UPDATE DroolsRule;uuid;code[unique=true];rulePackage;active;globals;ruleType(code);ruleGroupCode;messageFired[lang=en];kieBase(name);version;currentVersion[default=true]
-;a550997f-56de-4f81-96f2-392a7830f78b;testTrail;de.hybris.platform.promotionengineservices.test;false;addUserToUserGroupAction->addUserToUserGroupAction;PROMOTION;;You are added to special user group.;promotions-base;0;
+
+$lang=en
+
+INSERT_UPDATE RuleConditionDefinition;id[unique=true];name[lang=$lang];priority;breadcrumb[lang=$lang];allowsChildren;translatorId;translatorParameters;categories(id)
+                                     ;customer_review;Customer Review;200;Customer wrote a review for a product;false;ruleCustomerReviewTranslator;;customer
+
+INSERT_UPDATE RuleConditionDefinitionRuleTypeMapping;definition(id)[unique=true];ruleType(code)[default=PromotionSourceRule][unique=true]
+                                                    ;customer_review;
