@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?><testclasses><newbackoffice><testclass>com.training.jalo.NewbackofficeTest</testclass><testclass>com.training.service.impl.DefaultNewbackofficeServiceIntegrationTest</testclass></newbackoffice></testclasses>
+<?xml version="1.0" encoding="utf-8"?><testclasses><newbackoffice><testclass>com.training.jalo.NewbackofficeTest</testclass><testclass>com.training.service.impl.DefaultNewbackofficeServiceIntegrationTest</testclass><testclass>com.training.solrj.SolrTest</testclass></newbackoffice></testclasses>
