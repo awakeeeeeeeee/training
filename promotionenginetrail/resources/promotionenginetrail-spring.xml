@@ -130,9 +130,17 @@
         <property name="userService" ref="userService" />
     </bean>
 
+    <alias name="defaultRuleSearchWordAddScoreActionStrategy" alias="defaultRuleSearchWordAddScoreActionStrategy"/>
+    <bean id="defaultRuleSearchWordAddScoreActionStrategy" class="org.training.action.DefaultRuleSearchWordAddScoreActionStrategy" parent="abstractRuleActionStrategy">
+        <property name="promotionAction" value="de.hybris.platform.promotionengineservices.model.RuleBasedOrderAdjustTotalActionModel"/>
+    </bean>
 
     <bean id="promotionenginetrailActionStrategies" depends-on="actionStrategies" parent="listMergeDirective">
         <property name="add" ref="defaultAddUserToUserGroupActionStrategy" />
+    </bean>
+
+    <bean id="promotionenginetrailActionStrategies1" depends-on="actionStrategies" parent="listMergeDirective">
+        <property name="add" ref="defaultRuleSearchWordAddScoreActionStrategy"/>
     </bean>
 
     <alias alias="addUserToUserGroupRAOAction" name="defaultAddUserToUserGroupRAOAction" />
@@ -149,10 +157,26 @@
         <property name="value" ref="defaultAddUserToUserGroupActionStrategy" />
     </bean>
 
+    <bean id="promotionenginetrailPromotionActionStrategiesMapping1" depends-on="promotionActionStrategiesMapping" parent="mapMergeDirective">
+        <property name="key" value="ruleSearchedWordAddScoreAction" />
+        <property name="value" ref="defaultRuleSearchWordAddScoreActionStrategy" />
+    </bean>
+
     <alias alias="ruleCustomerReviewTranslator" name="defaultRuleCustomerReviewTranslator" />
     <bean id="defaultRuleCustomerReviewTranslator" class="org.training.condition.RuleCustomerReviewTranslator" />
 
-    <bean id="ruleSearchedWordAddScoreAction" class="org.training.action.RuleSearchedWordAddScoreAction"></bean>
+    <bean id="ruleSearchedWordAddScoreAction" class="org.training.action.RuleSearchedWordAddScoreAction">
+        <property name="addOrderEntryDiscountRAOAction" ref="defaultRuleEngineCalculationService"/>
+        <property name="configurationService" ref="configurationService"/>
+        <property name="ruleEngineCalculationService" ref="ruleEngineCalculationService"/>
+        <property name="entriesSelectionStrategies" ref="entriesSelectionStrategies"/>
+        <property name="ruleCurrencyConverterStrategy" ref="ruleCurrencyConverterStrategy" />
+        <property name="orderUtils" ref="orderUtils"/>
+        <property name="actionSupplementStrategies" ref="actionSupplementStrategies" />
+        <property name="raoUtils" ref="raoUtils"/>
+        <property name="consumptionEnabled" value="#{configurationService.configuration.getProperty('ruleengineservices.order.consumption.enabled')}"/>
+    </bean>
+
     <bean id="ruleQualifyingSearchedWordConditionTranslator" class="org.training.condition.RuleQualifyingSearchedWordConditionTranslator" />
 
     <alias name="defaultSearchWordRaoPopulator" alias="defaultProductRaoPopulator"/>

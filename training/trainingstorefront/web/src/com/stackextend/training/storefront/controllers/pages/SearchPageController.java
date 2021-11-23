@@ -108,7 +108,7 @@ public class SearchPageController extends AbstractSearchPageController
 			final SearchQueryData searchQueryData = new SearchQueryData();
 			searchQueryData.setValue(searchText);
 			//mock test article
-			searchType = "article";
+//			searchType = "article";
 			searchQueryData.setSearchIndexType(searchType);
 			searchState.setQuery(searchQueryData);
 

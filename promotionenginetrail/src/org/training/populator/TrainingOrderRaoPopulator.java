@@ -13,6 +13,12 @@ import org.springframework.security.access.method.P;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * 多余的，无作用
+ * @param <T>
+ * @param <P>
+ */
+
 public class TrainingOrderRaoPopulator<T extends AbstractOrderModel, P extends AbstractOrderRAO> extends AbstractOrderRaoPopulator {
 
     private SearchWordRaoPupolator searchWordRaoPupolator;
