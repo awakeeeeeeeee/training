@@ -8,17 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping(value = "/test")
-public class LoginController {
+@RequestMapping(value = "/hello")
+public class HelloLayUiController {
 
-    @GetMapping(value = "/getStr")
+    @GetMapping(value = "/layui")
     public String test(){
-        return "hello";
+        return "hello-layui";
     }
 
-
-    @GetMapping(value = "/getJsp")
-    public String test1(){
-        return "test";
-    }
 }
