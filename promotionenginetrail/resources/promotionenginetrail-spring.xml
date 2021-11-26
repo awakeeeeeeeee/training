@@ -166,6 +166,7 @@
     <bean id="defaultRuleCustomerReviewTranslator" class="org.training.condition.RuleCustomerReviewTranslator" />
 
     <bean id="ruleSearchedWordAddScoreAction" class="org.training.action.RuleSearchedWordAddScoreAction">
+        <property name="ruleService" ref="ruleService"/>
         <property name="addOrderEntryDiscountRAOAction" ref="defaultRuleEngineCalculationService"/>
         <property name="configurationService" ref="configurationService"/>
         <property name="ruleEngineCalculationService" ref="ruleEngineCalculationService"/>

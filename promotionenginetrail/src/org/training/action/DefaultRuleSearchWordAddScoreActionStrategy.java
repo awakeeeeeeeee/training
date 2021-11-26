@@ -35,6 +35,7 @@ public class DefaultRuleSearchWordAddScoreActionStrategy extends AbstractRuleAct
         }
 
         DiscountRAO discountRao = (DiscountRAO)action;
+        //默认的扣减固定值的action
         RuleBasedOrderAdjustTotalActionModel actionModel = this.createOrderAdjustTotalAction(promoResult, discountRao);
         this.handleActionMetadata(action, actionModel);
         this.getPromotionActionService().createDiscountValue(discountRao, actionModel.getGuid(), order);
