@@ -58,4 +58,39 @@
         <property name="defaultEncoding" value="UTF-8"/>
         <property name="cacheSeconds" value="1"/>
     </bean>
+
+    <alias name="defaultSessionCookieGenerator" alias="sessionCookieGenerator"/>
+    <bean id="defaultSessionCookieGenerator" class="com.training.controller.cookie.EnhancedCookieGenerator" >
+        <property name="cookieSecure" value="true"/>
+        <property name="cookieName" value="JSESSIONID"/>
+        <property name="cookieMaxAge" value="-1"/>
+        <property name="useDefaultPath" value="false"/>
+        <property name="httpOnly" value="true"/>
+    </bean>
+
+    <alias name="defaultRequireHardLoginEvaluator" alias="requireHardLoginEvaluator" />
+    <bean id="defaultRequireHardLoginEvaluator" class="com.training.controller.evaluator.impl.RequireHardLoginEvaluator" >
+        <property name="userService" ref="userService"/>
+        <property name="cookieGenerator" ref="guidCookieGenerator"/>
+        <property name="sessionService" ref="sessionService"/>
+        <property name="cartService" ref="cartService"/>
+    </bean>
+
+    <bean id="guidCookieStrategy" class="com.training.controller.strategy.DefaultGUIDCookieStrategy">
+        <property name="cookieGenerator" ref="guidCookieGenerator" />
+    </bean>
+
+    <bean id="acceleratorAuthenticationProvider" class="com.training.filter.AcceleratorAuthenticationProvider" parent="abstractAcceleratorAuthenticationProvider">
+        <property name="adminGroup" value="ROLE_ADMINGROUP"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="bruteForceAttackCounter" ref="bruteForceAttackCounter"/>
+        <property name="userDetailsService" ref="coreUserDetailsService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="loginGuidAuthenticationSuccessHandler" class="com.training.handler.GUIDAuthenticationSuccessHandler" >
+        <property name="authenticationSuccessHandler" ref="loginAuthenticationSuccessHandler" />
+        <property name="guidCookieStrategy" ref="guidCookieStrategy" />
+    </bean>
+
 </beans>
