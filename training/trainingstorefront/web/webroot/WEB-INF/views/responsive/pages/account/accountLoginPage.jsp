@@ -4,6 +4,7 @@
 <%@ taglib prefix="cms" uri="http://hybris.com/tld/cmstags"%>
 
 <template:page pageTitle="${pageTitle}">
+	this is login page jsp
 	<div class="row">
 		<div class="col-md-6">
 			<cms:pageSlot position="LeftContentSlot" var="feature" element="div" class="login-left-content-slot">

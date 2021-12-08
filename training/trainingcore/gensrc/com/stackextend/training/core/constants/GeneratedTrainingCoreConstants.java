@@ -1,7 +1,7 @@
 /*
  * ----------------------------------------------------------------
  * --- WARNING: THIS FILE IS GENERATED AND WILL BE OVERWRITTEN! ---
- * --- Generated at Nov 21, 2021 1:43:20 PM                     ---
+ * --- Generated at 2021-12-8 17:35:42                          ---
  * ----------------------------------------------------------------
  */
 package com.stackextend.training.core.constants;

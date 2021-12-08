@@ -26,7 +26,7 @@
 		<span class="has-error"> <spring:theme code="${message}" />
 		</span>
 	</c:if>	
-	
+		this is login tag
 		<formElement:formInputBox idKey="j_username" labelKey="login.email"
 			path="j_username" mandatory="true" />
 		<formElement:formPasswordBox idKey="j_password"

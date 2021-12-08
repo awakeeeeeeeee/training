@@ -29,12 +29,15 @@
         <http-basic />
         <form-login 
         	always-use-default-target="false" 
-        	login-page="/login.jsp" 
+        	login-page="/login.jsp"
+            authentication-failure-handler-ref="loginAuthenticationFailureHandler"
+            authentication-success-handler-ref="loginGuidAuthenticationSuccessHandler"
         	username-parameter="j_username"
 			password-parameter="j_password"
 			login-processing-url="/j_spring_security_check"
         	authentication-failure-url="/login.jsp?login_error=1"
         />
+
         <remember-me services-ref="rememberMeServices" key="adminweb"/>
         <logout logout-url="/j_spring_security_logout" logout-success-url="/login.jsp"/>
         <csrf />
@@ -42,6 +45,31 @@
             <frame-options disabled="true"/>
         </headers>
     </http>
+
+
+    <beans:bean id="loginGuidAuthenticationSuccessHandler" class="com.training.handler.GUIDAuthenticationSuccessHandler" >
+        <beans:property name="authenticationSuccessHandler"  ref="loginGuidAuthenticationSuccessHandler"/>
+        <beans:property name="guidCookieStrategy" ref="guidCookieStrategy" />
+    </beans:bean>
+
+    <beans:bean id="guidCookieStrategy" class="com.training.controller.strategy.DefaultGUIDCookieStrategy">
+        <beans:property name="cookieGenerator" ref="guidCookieGenerator" />
+    </beans:bean>
+
+    <beans:alias name="defaultGuidCookieGenerator" alias="guidCookieGenerator"/>
+    <beans:bean id="defaultGuidCookieGenerator" class="com.training.controller.cookie.EnhancedCookieGenerator" >
+        <beans:property name="cookieSecure" value="true" />
+        <beans:property name="cookieName" value="acceleratorSecureGUID" />
+        <beans:property name="httpOnly" value="true"/>
+    </beans:bean>
+
+
+    <beans:bean id="loginAuthenticationFailureHandler" class="com.training.handler.LoginAuthenticationFailureHandler" >
+        <beans:property name="bruteForceAttackCounter" ref="bruteForceAttackCounter" />
+        <beans:property name="defaultFailureUrl" value="/login?error=true"/>
+    </beans:bean>
+
+
 
     <beans:bean id="fixation" class="de.hybris.platform.servicelayer.security.spring.HybrisSessionFixationProtectionStrategy">
         <beans:property name="migrateSessionAttributes" value="false"/>
