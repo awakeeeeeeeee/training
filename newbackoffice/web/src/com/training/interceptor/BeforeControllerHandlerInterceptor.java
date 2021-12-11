@@ -1,16 +1,5 @@
-/*
- * [y] hybris Platform
- *
- * Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
- */
 package com.training.interceptor;
 
-import de.hybris.platform.acceleratorstorefrontcommons.interceptors.BeforeControllerHandler;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -24,7 +13,7 @@ import java.util.List;
  */
 public class BeforeControllerHandlerInterceptor extends HandlerInterceptorAdapter
 {
-	private static final String INTERCEPTOR_ONCE_KEY = BeforeControllerHandlerInterceptor.class.getName();
+	private final String INTERCEPTOR_ONCE_KEY = BeforeControllerHandlerInterceptor.class.getName();
 
 	private List<BeforeControllerHandler> beforeControllerHandlers;
 

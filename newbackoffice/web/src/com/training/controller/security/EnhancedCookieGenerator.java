@@ -1,18 +1,10 @@
-/*
- * [y] hybris Platform
+/**
  *
- * Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
-package com.training.controller.cookie;
-
+package com.training.controller.security;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.tomcat.util.http.ServerCookie;
+import org.apache.log4j.Logger;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.util.CookieGenerator;
@@ -28,6 +20,8 @@ import javax.servlet.http.HttpServletResponseWrapper;
  */
 public class EnhancedCookieGenerator extends CookieGenerator
 {
+	private static final Logger LOG = Logger.getLogger(EnhancedCookieGenerator.class);
+
 	public static final String HEADER_COOKIE = "Set-Cookie";
 	public static final boolean DEFAULT_HTTP_ONLY = false;
 	public static final boolean DEFAULT_COOKIE_PATH = true;
@@ -66,7 +60,7 @@ public class EnhancedCookieGenerator extends CookieGenerator
 	@Override
 	public void addCookie(final HttpServletResponse response, final String cookieValue)
 	{
-		super.addCookie(new HttpServletResponseWrapper(response) // NOSONAR
+		super.addCookie(new HttpServletResponseWrapper(response)
 		{
 			@Override
 			public void addCookie(final Cookie cookie)
@@ -76,11 +70,9 @@ public class EnhancedCookieGenerator extends CookieGenerator
 				if (isHttpOnly())
 				{
 					// Custom code to write the cookie including the httpOnly flag
-					// StringBuffer cannot be replaced by StringBuilder due to the type required by called function
-					final StringBuffer headerBuffer = new StringBuffer(100); // NOSONAR
+					final StringBuffer headerBuffer = new StringBuffer(100);
 					ServerCookie.appendCookieValue(headerBuffer, cookie.getVersion(), cookie.getName(), cookie.getValue(),
-							cookie.getPath(), cookie.getDomain(), cookie.getComment(), cookie.getMaxAge(), cookie.getSecure(),
-							true);
+							cookie.getPath(), cookie.getDomain(), cookie.getComment(), cookie.getMaxAge(), cookie.getSecure(), true);
 					response.addHeader(HEADER_COOKIE, headerBuffer.toString());
 				}
 				else
@@ -102,10 +94,12 @@ public class EnhancedCookieGenerator extends CookieGenerator
 		{
 			final HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
 					.getRequest();
-			if (StringUtils.isNotBlank(request.getContextPath()))
+			final String path = request.getContextPath();
+			if (LOG.isDebugEnabled())
 			{
-				cookie.setPath(request.getContextPath());
+				LOG.debug("hola setEnhancedCookiePath: " + path);
 			}
+			cookie.setPath(StringUtils.isBlank(path) ? "/" : path);
 		}
 	}
 }

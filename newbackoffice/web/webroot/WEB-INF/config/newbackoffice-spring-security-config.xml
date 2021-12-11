@@ -47,28 +47,31 @@
     </http>
 
 
-    <beans:bean id="loginGuidAuthenticationSuccessHandler" class="com.training.handler.GUIDAuthenticationSuccessHandler" >
-        <beans:property name="authenticationSuccessHandler"  ref="loginGuidAuthenticationSuccessHandler"/>
-        <beans:property name="guidCookieStrategy" ref="guidCookieStrategy" />
+    <beans:bean id="loginGuidAuthenticationSuccessHandler" class="com.training.controller.security.GUIDAuthenticationSuccessHandler" >
     </beans:bean>
 
-    <beans:bean id="guidCookieStrategy" class="com.training.controller.strategy.DefaultGUIDCookieStrategy">
+    <beans:bean id="guidCookieStrategy" class="com.training.controller.security.DefaultGUIDCookieStrategy">
         <beans:property name="cookieGenerator" ref="guidCookieGenerator" />
     </beans:bean>
 
     <beans:alias name="defaultGuidCookieGenerator" alias="guidCookieGenerator"/>
-    <beans:bean id="defaultGuidCookieGenerator" class="com.training.controller.cookie.EnhancedCookieGenerator" >
+    <beans:bean id="defaultGuidCookieGenerator" class="com.training.controller.security.EnhancedCookieGenerator" >
         <beans:property name="cookieSecure" value="true" />
         <beans:property name="cookieName" value="acceleratorSecureGUID" />
         <beans:property name="httpOnly" value="true"/>
     </beans:bean>
 
 
-    <beans:bean id="loginAuthenticationFailureHandler" class="com.training.handler.LoginAuthenticationFailureHandler" >
+    <beans:bean id="loginAuthenticationFailureHandler" class="com.training.controller.security.LoginAuthenticationFailureHandler" >
         <beans:property name="bruteForceAttackCounter" ref="bruteForceAttackCounter" />
         <beans:property name="defaultFailureUrl" value="/login?error=true"/>
     </beans:bean>
 
+    <beans:bean id="bruteForceAttackCounter" class="com.training.controller.security.DefaultBruteForceAttackCounter">
+        <beans:constructor-arg name="maxFailedLogins" value="5" />
+        <beans:constructor-arg name="cacheExpiration" value="60" />
+        <beans:constructor-arg name="cacheSizeLimit" value="1000" />
+    </beans:bean>
 
 
     <beans:bean id="fixation" class="de.hybris.platform.servicelayer.security.spring.HybrisSessionFixationProtectionStrategy">

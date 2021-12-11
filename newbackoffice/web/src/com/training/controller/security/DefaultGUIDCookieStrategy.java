@@ -1,17 +1,12 @@
-/*
- * [y] hybris Platform
+/**
  *
- * Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
-package com.training.controller.strategy;
+package com.training.controller.security;
+/**
+ * @author maxyang
+ *
+ */
 
-import com.training.handler.RequireHardLoginBeforeControllerHandler;
-import de.hybris.platform.acceleratorstorefrontcommons.security.GUIDCookieStrategy;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
@@ -57,7 +52,6 @@ public class DefaultGUIDCookieStrategy implements GUIDCookieStrategy
 		final String guid = createGUID();
 
 		getCookieGenerator().addCookie(response, guid);
-		request.getSession().setAttribute(RequireHardLoginBeforeControllerHandler.SECURE_GUID_SESSION_KEY, guid);
 
 		if (LOG.isInfoEnabled())
 		{
@@ -112,3 +106,4 @@ public class DefaultGUIDCookieStrategy implements GUIDCookieStrategy
 		return sha;
 	}
 }
+
