@@ -18,6 +18,11 @@
 
     <display-name>newbackoffice</display-name>
 
+
+    <welcome-file-list>
+        <welcome-file>login.jsp</welcome-file>
+    </welcome-file-list>
+
     <login-config>
         <auth-method>BASIC</auth-method>
     </login-config>

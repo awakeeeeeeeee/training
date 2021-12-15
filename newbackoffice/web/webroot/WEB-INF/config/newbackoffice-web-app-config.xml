@@ -35,6 +35,8 @@
 				<ref bean="log4jFilter"/>
 				<ref bean="sessionFilter"/>
                 <ref bean="newbackofficeMediaFilter"/>
+                <!--这一步是关键，不加不会走springsecurity的验证流程，去特喵的，老子找了好久 -->
+                <ref bean="springSecurityFilterChain"/>
 			</list>
 		</constructor-arg>
 	</bean>
