@@ -12,12 +12,30 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven/>
+
+
+
+
+<!--    <mvc:interceptors>-->
+<!--        <mvc:interceptor>-->
+<!--            <mvc:mapping path="/**" />-->
+<!--            <mvc:exclude-mapping path="/login.jsp"/>-->
+<!--            <ref bean="newBackOfficeBeforeViewHandlerInterceptor" />-->
+<!--        </mvc:interceptor>-->
+
+<!--&lt;!&ndash;        <ref bean="newBackOfficeBeforeControllerHandlerInterceptor" />&ndash;&gt;-->
+<!--    </mvc:interceptors>-->
+
+
+
+
     <context:annotation-config/>
     <context:component-scan base-package="com.training"/>
     <context:property-placeholder properties-ref="hybrisProperties"/>
@@ -80,7 +98,7 @@
         <property name="cookieGenerator" ref="guidCookieGenerator" />
     </bean>
 
-    <bean id="acceleratorAuthenticationProvider" class="com.training.controller.security.AcceleratorAuthenticationProvider" parent="abstractAcceleratorAuthenticationProvider">
+    <bean id="acceleratorAuthenticationProvider" class="com.training.controller.security.AcceleratorAuthenticationProvider">
         <property name="adminGroup" value="ROLE_ADMINGROUP"/>
         <property name="modelService" ref="modelService"/>
         <property name="bruteForceAttackCounter" ref="bruteForceAttackCounter"/>
@@ -90,5 +108,13 @@
 
     <bean id="loginGuidAuthenticationSuccessHandler" class="com.training.controller.security.GUIDAuthenticationSuccessHandler" >
     </bean>
+
+<!--    <bean id="newBackOfficeBeforeViewHandlerInterceptor" class="com.training.interceptor.BeforeViewHandlerInterceptor" >-->
+<!--        <property name="beforeViewHandlers">-->
+<!--            <util:list>-->
+<!--                <bean class="com.training.interceptor.PageBeforeViewHandler" />-->
+<!--            </util:list>-->
+<!--        </property>-->
+<!--    </bean>-->
 
 </beans>

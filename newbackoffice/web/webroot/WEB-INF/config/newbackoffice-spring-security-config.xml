@@ -34,13 +34,14 @@
             authentication-success-handler-ref="loginGuidAuthenticationSuccessHandler"
         	username-parameter="j_username"
 			password-parameter="j_password"
-			login-processing-url="/j_spring_security_check"
+			login-processing-url="/login"
         	authentication-failure-url="/login.jsp?login_error=1"
         />
 
         <remember-me services-ref="rememberMeServices" key="adminweb"/>
         <logout logout-url="/j_spring_security_logout" logout-success-url="/login.jsp"/>
-        <csrf />
+       <!-- 关闭csrf -->
+        <csrf disabled="true"/>
         <headers>
             <frame-options disabled="true"/>
         </headers>

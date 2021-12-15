@@ -23,16 +23,16 @@ import com.training.service.NewbackofficeService;
 
 
 @Controller
-@RequestMapping(value = "/")
+//@RequestMapping(value = "/")
 public class NewbackofficeHelloController
 {
 	@Autowired
 	private NewbackofficeService newbackofficeService;
 
-	@GetMapping
-	public String printWelcome(final ModelMap model)
-	{
+//	@GetMapping
+//	public String printWelcome(final ModelMap model)
+//	{
 //		model.addAttribute("logoUrl", newbackofficeService.getHybrisLogoUrl(PLATFORM_LOGO_CODE));
-		return "welcome";
-	}
+//		return "welcome";
+//	}
 }
