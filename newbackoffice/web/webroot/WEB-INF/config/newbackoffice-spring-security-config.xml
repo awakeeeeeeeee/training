@@ -18,24 +18,24 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd"
 >
 
-    <http pattern="/500.jsp" security="none" />
-    <http pattern="/404.jsp" security="none" />
-    <http pattern="/static/**" security="none" />
+    <http pattern="/500.jsp" use-expressions="false" security="none" />
+    <http pattern="/404.jsp" use-expressions="false" security="none" />
+    <http pattern="/static/**" use-expressions="false" security="none" />
 
     <http access-decision-manager-ref="accessDecisionManager" use-expressions="false">
         <session-management session-authentication-strategy-ref="fixation"/>
         <intercept-url pattern="/login.jsp" access="PERMIT_ALL"/>
         <intercept-url pattern="/**" access="HYBRIS_NOT_INITIALIZED,ROLE_CUSTOMERGROUP"/>
         <http-basic />
-        <form-login 
-        	always-use-default-target="false" 
+        <form-login
+        	always-use-default-target="true"
         	login-page="/login.jsp"
             authentication-failure-handler-ref="loginAuthenticationFailureHandler"
             authentication-success-handler-ref="loginGuidAuthenticationSuccessHandler"
         	username-parameter="j_username"
 			password-parameter="j_password"
 			login-processing-url="/login"
-        	authentication-failure-url="/login.jsp?login_error=1"
+        	authentication-failure-url="/login.jsp"
         />
 
         <remember-me services-ref="rememberMeServices" key="adminweb"/>
@@ -65,7 +65,9 @@
 
     <beans:bean id="loginAuthenticationFailureHandler" class="com.training.controller.security.LoginAuthenticationFailureHandler" >
         <beans:property name="bruteForceAttackCounter" ref="bruteForceAttackCounter" />
-        <beans:property name="defaultFailureUrl" value="/login?error=true"/>
+        <beans:property name="defaultFailureUrl" value="/login.jsp"/>
+<!--        必须调整成login.jsp，否则登录失败后，重新登录成功，会跳转到下面的地址，404-->
+<!--        <beans:property name="defaultFailureUrl" value="/login?error=true"/>-->
     </beans:bean>
 
     <beans:bean id="bruteForceAttackCounter" class="com.training.controller.security.DefaultBruteForceAttackCounter">

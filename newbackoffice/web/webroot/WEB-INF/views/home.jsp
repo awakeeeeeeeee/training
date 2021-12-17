@@ -67,6 +67,8 @@
         <li lay-options="{id: 106}">
             <div class="layui-menu-body-title">menu item 6</div>
         </li>
+
+        <a href="/newbackoffice/j_spring_security_logout">log out</a>
     </ul>
 </div>
 

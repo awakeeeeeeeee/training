@@ -6,12 +6,12 @@
 <html>
 <head>
     <title>Login</title>
-    <link rel="stylesheet" href="<c:url value="/static/newbackoffice-webapp.css"/>" type="text/css"
-          media="screen, projection"/>
+<%--    <link rel="stylesheet" href="<c:url value="/static/newbackoffice-webapp.css"/>" type="text/css"--%>
+<%--          media="screen, projection"/>--%>
 </head>
 <body>
 <div class="container">
-    <form action="<c:url value="/j_spring_security_check"/>" method="POST">
+    <form action="<c:url value="/login"/>" method="POST">
         <div id="logincontrols" class="logincontrols">
             <div id="loginErrors">&nbsp;
                 <c:if test="${not empty param.login_error}">
@@ -20,11 +20,14 @@
             </div>
             <fieldset class="login-form">
                 <p>
-                    <input type="text" name="j_username" placeholder="Username" value="admin"/>
+                    <input type="text" name="j_username" placeholder="Username" value="123@gmail.com"/>
                 </p>
                 <p>
                     <input type="password" name="j_password" placeholder="Password" value=""/>
                 </p>
+                <div>
+                    <label style="color: red">${logError}</label>
+                </div>
                 <p>
                     <label><input type="checkbox" name="_spring_security_remember_me" class="checkbox"
                                   id="_spring_security_remember_me"/> Remember Login</label>

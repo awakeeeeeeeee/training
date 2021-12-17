@@ -6,6 +6,7 @@ package com.training.controller.security;
 import de.hybris.platform.servicelayer.session.Session;
 import de.hybris.platform.servicelayer.session.SessionService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
@@ -19,6 +20,8 @@ import java.io.IOException;
 
 public class LoginAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler
 {
+	private static final Logger LOG = Logger.getLogger(LoginAuthenticationFailureHandler.class);
+
 	private BruteForceAttackCounter bruteForceAttackCounter;
 
 	@Resource
@@ -31,6 +34,7 @@ public class LoginAuthenticationFailureHandler extends SimpleUrlAuthenticationFa
 		Session session = sessionService.getCurrentSession();
 		String backurl = "";
 
+		LOG.info("onAuthenticationFailure msg: " + exception.getMessage());
 		request.getSession().setAttribute("logError",exception.getMessage());
 		if(session != null)
 		{

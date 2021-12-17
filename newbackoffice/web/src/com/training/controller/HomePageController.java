@@ -46,6 +46,7 @@ public class HomePageController {
         if (StringUtils.isNotBlank(referer) && !StringUtils.endsWith(referer, "/login")
                 && StringUtils.contains(referer, request.getServerName()))
         {
+
             httpSessionRequestCache.saveRequest(request, response);
         }
     }

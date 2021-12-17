@@ -20,7 +20,7 @@
 
 
     <welcome-file-list>
-        <welcome-file>login.jsp</welcome-file>
+        <welcome-file>index.htm</welcome-file>
     </welcome-file-list>
 
     <login-config>
@@ -140,6 +140,22 @@
     <servlet-mapping>
         <servlet-name>springmvc</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/static/*</url-pattern>
+        <url-pattern>/resource/*</url-pattern>
+        <!-- 	    <url-pattern>*.js</url-pattern>
+                <url-pattern>*.css</url-pattern>
+                <url-pattern>*.ico</url-pattern>
+                <url-pattern>*.png</url-pattern>
+                <url-pattern>*.jpg</url-pattern>
+                <url-pattern>*.htc</url-pattern>
+                <url-pattern>*.gif</url-pattern> -->
+        <url-pattern>*.html</url-pattern>
+        <url-pattern>*.htm</url-pattern>
     </servlet-mapping>
     
     <session-config>
