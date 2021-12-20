@@ -1,76 +1,96 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ page language="java" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>layui</title>
-    <link rel="stylesheet" href="<c:url value="/static/layui/css/layui.css"/>" type="text/css"
-          media="screen, projection"/>
+    <title>newbackoffice</title>
+    <link rel="stylesheet" href="<c:url value="/static/layui/css/layui.css"/>" type="text/css" media="screen, projection"/>
+    <script src="<c:url value="/static/layui/layui.js"/>"></script>
+    <script src="<c:url value="/static/jquery/jquery.min.js"/>"></script>
+    <script src="<c:url value="/static/js/menu.js"/>"></script>
 </head>
 <body>
 
 
-<script src="<c:url value="/static/layui/layui.js"/>"></script>
-<script>
-    layui.use(['layer', 'form'], function(){
-        var layer = layui.layer
-            ,form = layui.form;
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo layui-hide-xs layui-bg-black">layout demo</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <!-- 移动端显示 -->
+            <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+                <i class="layui-icon layui-icon-spread-left"></i>
+            </li>
 
-        layer.msg('Hello World');
-    });
+            <li class="layui-nav-item layui-hide-xs"><a href="">nav 1</a></li>
+            <li class="layui-nav-item layui-hide-xs"><a href="">nav 2</a></li>
+            <li class="layui-nav-item layui-hide-xs"><a href="">nav 3</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:    ;">nav groups</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">menu 11</a></dd>
+                    <dd><a href="">menu 22</a></dd>
+                    <dd><a href="">menu 33</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+                <a href="javascript:;">
+                    <img src="//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" class="layui-nav-img">
+                    tester
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">Your Profile</a></dd>
+                    <dd><a href="">Settings</a></dd>
+                    <dd><a href="">Sign out</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
+                <a href="javascript:;">
+                    <i class="layui-icon layui-icon-more-vertical"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
 
-</script>
-
-
-<div class="layui-panel">
-    <ul class="layui-menu" id="docDemoMenu1">
-        <li lay-options="{id: 100}">
-            <div class="layui-menu-body-title">menu item 1</div>
-        </li>
-        <li lay-options="{id: 101}">
-            <div class="layui-menu-body-title">
-                <a href="#">menu item 2 <span class="layui-badge-dot"></span></a>
-            </div>
-        </li>
-        <li class="layui-menu-item-divider"></li>
-        <li class="layui-menu-item-group layui-menu-item-down" lay-options="{type: 'group'}">
-            <div class="layui-menu-body-title">
-                menu item 3 group <i class="layui-icon layui-icon-up"></i>
-            </div>
-            <ul>
-                <li lay-options="{id: 1031}">menu item 3-1</li>
-                <li lay-options="{id: 1032}">
-                    <div class="layui-menu-body-title">menu item 3-2</div>
-                </li>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" id="test">
+<%--                <li class="layui-nav-item layui-nav-itemed">--%>
+<%--                    <a class="" href="javascript:;">menu group 1</a>--%>
+<%--                    <dl class="layui-nav-child">--%>
+<%--                        <dd><a href="javascript:;">menu 1</a></dd>--%>
+<%--                        <dd><a href="javascript:;">menu 2</a></dd>--%>
+<%--                        <dd><a href="javascript:;">menu 3</a></dd>--%>
+<%--                        <dd><a href="">the links</a></dd>--%>
+<%--                    </dl>--%>
+<%--                </li>--%>
+                <li class="layui-nav-item"><a href="javascript:;">click menu item</a></li>
+                <li class="layui-nav-item"><a href="">the links</a></li>
             </ul>
-        </li>
-        <li class="layui-menu-item-divider"></li>
-        <li lay-options="{id: 104}">
-            <div class="layui-menu-body-title">menu item 4</div>
-        </li>
-        <li class="layui-menu-item-parent" lay-options="{type: 'parent'}">
-            <div class="layui-menu-body-title">
-                menu item 5
-                <i class="layui-icon layui-icon-right"></i>
-            </div>
-            <div class="layui-panel layui-menu-body-panel">
-                <ul>
-                    <li lay-options="{id: 1051}">
-                        <div class="layui-menu-body-title">menu item 5-1</div>
-                    </li>
-                    <li lay-options="{id: 1051}">
-                        <div class="layui-menu-body-title">menu item 5-2</div>
-                    </li>
-                </ul>
-            </div>
-        </li>
-        <li lay-options="{id: 106}">
-            <div class="layui-menu-body-title">menu item 6</div>
-        </li>
+        </div>
+    </div>
 
-        <a href="/newbackoffice/j_spring_security_logout">log out</a>
-    </ul>
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">内容主体区域。记得修改 layui.css 和 js 的路径</div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        底部固定区域
+    </div>
 </div>
+
+
+
+
+</body>
 
 
 
