@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.training.controller.security;
+package com.training.security;
 
 /**
  * @author maxyang

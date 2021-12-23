@@ -1,0 +1,8 @@
+
+
+INSERT_UPDATE UITREE;isRoot[default=false];id[unique=true];name;url;sort;children(id);
+;true;1;订单管理;;1;2
+;    ;2;订单查询;/seachOrder;2;;
+
+;true;3;脚本管理;;3;4
+;    ;4;脚本查询;/searchGroovy;4;;

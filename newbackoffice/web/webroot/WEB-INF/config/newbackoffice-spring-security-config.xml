@@ -48,29 +48,29 @@
     </http>
 
 
-    <beans:bean id="loginGuidAuthenticationSuccessHandler" class="com.training.controller.security.GUIDAuthenticationSuccessHandler" >
+    <beans:bean id="loginGuidAuthenticationSuccessHandler" class="com.training.security.GUIDAuthenticationSuccessHandler" >
     </beans:bean>
 
-    <beans:bean id="guidCookieStrategy" class="com.training.controller.security.DefaultGUIDCookieStrategy">
+    <beans:bean id="guidCookieStrategy" class="com.training.security.DefaultGUIDCookieStrategy">
         <beans:property name="cookieGenerator" ref="guidCookieGenerator" />
     </beans:bean>
 
     <beans:alias name="defaultGuidCookieGenerator" alias="guidCookieGenerator"/>
-    <beans:bean id="defaultGuidCookieGenerator" class="com.training.controller.security.EnhancedCookieGenerator" >
+    <beans:bean id="defaultGuidCookieGenerator" class="com.training.security.EnhancedCookieGenerator" >
         <beans:property name="cookieSecure" value="true" />
         <beans:property name="cookieName" value="acceleratorSecureGUID" />
         <beans:property name="httpOnly" value="true"/>
     </beans:bean>
 
 
-    <beans:bean id="loginAuthenticationFailureHandler" class="com.training.controller.security.LoginAuthenticationFailureHandler" >
+    <beans:bean id="loginAuthenticationFailureHandler" class="com.training.security.LoginAuthenticationFailureHandler" >
         <beans:property name="bruteForceAttackCounter" ref="bruteForceAttackCounter" />
         <beans:property name="defaultFailureUrl" value="/login.jsp"/>
 <!--        必须调整成login.jsp，否则登录失败后，重新登录成功，会跳转到下面的地址，404-->
 <!--        <beans:property name="defaultFailureUrl" value="/login?error=true"/>-->
     </beans:bean>
 
-    <beans:bean id="bruteForceAttackCounter" class="com.training.controller.security.DefaultBruteForceAttackCounter">
+    <beans:bean id="bruteForceAttackCounter" class="com.training.security.DefaultBruteForceAttackCounter">
         <beans:constructor-arg name="maxFailedLogins" value="5" />
         <beans:constructor-arg name="cacheExpiration" value="60" />
         <beans:constructor-arg name="cacheSizeLimit" value="1000" />

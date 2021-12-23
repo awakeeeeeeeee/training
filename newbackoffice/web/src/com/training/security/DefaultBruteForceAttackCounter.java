@@ -1,5 +1,5 @@
 
-package com.training.controller.security;
+package com.training.security;
 
 
 import org.apache.commons.lang.StringUtils;

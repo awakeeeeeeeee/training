@@ -65,5 +65,14 @@
     </bean>
 
 	-->
+	
+	
+	<bean class="com.training.data.UIData">
+		<property name="id" type="String"/>
+		<property name="name" type="String"/>
+		<property name="url" type="String"/>
+		<property name="sort" type="int"/>
+		<property name="children" type="java.util.List&lt;com.training.data.UIData>"/>
+	</bean>
 
 </beans>

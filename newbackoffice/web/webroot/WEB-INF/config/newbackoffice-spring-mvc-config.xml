@@ -78,7 +78,7 @@
     </bean>
 
     <alias name="defaultSessionCookieGenerator" alias="sessionCookieGenerator"/>
-    <bean id="defaultSessionCookieGenerator" class="com.training.controller.security.EnhancedCookieGenerator" >
+    <bean id="defaultSessionCookieGenerator" class="com.training.security.EnhancedCookieGenerator" >
         <property name="cookieSecure" value="true"/>
         <property name="cookieName" value="JSESSIONID"/>
         <property name="cookieMaxAge" value="-1"/>
@@ -87,18 +87,18 @@
     </bean>
 
 <!--    <alias name="defaultRequireHardLoginEvaluator" alias="requireHardLoginEvaluator" />-->
-<!--    <bean id="defaultRequireHardLoginEvaluator" class="com.training.controller.security.RequireHardLoginEvaluator" >-->
+<!--    <bean id="defaultRequireHardLoginEvaluator" class="com.training.security.RequireHardLoginEvaluator" >-->
 <!--        <property name="userService" ref="userService"/>-->
 <!--        <property name="cookieGenerator" ref="guidCookieGenerator"/>-->
 <!--        <property name="sessionService" ref="sessionService"/>-->
 <!--        <property name="cartService" ref="cartService"/>-->
 <!--    </bean>-->
 
-    <bean id="guidCookieStrategy" class="com.training.controller.security.DefaultGUIDCookieStrategy">
+    <bean id="guidCookieStrategy" class="com.training.security.DefaultGUIDCookieStrategy">
         <property name="cookieGenerator" ref="guidCookieGenerator" />
     </bean>
 
-    <bean id="acceleratorAuthenticationProvider" class="com.training.controller.security.AcceleratorAuthenticationProvider">
+    <bean id="acceleratorAuthenticationProvider" class="com.training.security.AcceleratorAuthenticationProvider">
         <property name="adminGroup" value="ROLE_ADMINGROUP"/>
         <property name="modelService" ref="modelService"/>
         <property name="bruteForceAttackCounter" ref="bruteForceAttackCounter"/>
@@ -106,7 +106,7 @@
         <property name="userService" ref="userService"/>
     </bean>
 
-    <bean id="loginGuidAuthenticationSuccessHandler" class="com.training.controller.security.GUIDAuthenticationSuccessHandler" >
+    <bean id="loginGuidAuthenticationSuccessHandler" class="com.training.security.GUIDAuthenticationSuccessHandler" >
     </bean>
 
 <!--    <bean id="newBackOfficeBeforeViewHandlerInterceptor" class="com.training.interceptor.BeforeViewHandlerInterceptor" >-->

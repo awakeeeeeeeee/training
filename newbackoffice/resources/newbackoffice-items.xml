@@ -16,32 +16,51 @@
 <items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 			xsi:noNamespaceSchemaLocation="items.xsd">
 
+
+	<collectiontypes>
+		<collectiontype code="UITreeList" elementtype="UITree"
+						autocreate="true" generate="true" type="list" />
+	</collectiontypes>
+
 	<itemtypes>
-<!--
-		<itemtype generate="true"
-		   code="MyProduct"
-		   jaloclass="com.training.jalo.MyProduct"
-		   extends="Product"
-		   autocreate="true"
-	   >
+
+		<itemtype generate="true" code="UITree" autocreate="true">
+			<deployment table="UITree" typecode="30000" />
+
 			<attributes>
-				<attribute qualifier="myExampleInitialStringField" type="java.lang.String">
-					<description>My Example Initial String Value</description>
-					<modifiers initial="true"/>
+				<attribute qualifier="id" type="java.lang.String">
+					<description>id</description>
+					<modifiers unique="true"/>
 					<persistence type="property"/>
 				</attribute>
 
-				<attribute qualifier="myExampleBooleanField" type="java.lang.Boolean">
-					<description>Example Initial Boolean Field</description>
-               <persistence type="property"/>
+				<attribute qualifier="name" type="java.lang.String">
+					<persistence type="property"/>
+					<description>name</description>
 				</attribute>
 
-				<attribute qualifier="media" type="Media">
+				<attribute qualifier="isRoot" type="java.lang.Boolean">
 					<persistence type="property"/>
+					<defaultvalue>Boolean.FALSE</defaultvalue>
+				</attribute>
+
+				<attribute qualifier="sort" type="java.lang.Integer">
+					<persistence type="property"/>
+					<description>sort</description>
+				</attribute>
+
+				<attribute qualifier="url" type="java.lang.String">
+					<persistence type="property"/>
+					<description>url</description>
+				</attribute>
+
+				<attribute qualifier="children" type="UITreeList">
+					<persistence type="property"/>
+					<description>children</description>
 				</attribute>
 
 			</attributes>
 		</itemtype>
--->
+
 	</itemtypes>
 </items>

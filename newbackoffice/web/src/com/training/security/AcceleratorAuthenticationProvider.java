@@ -11,7 +11,7 @@
  *
  *
  */
-package com.training.controller.security;
+package com.training.security;
 
 import de.hybris.platform.basecommerce.model.site.BaseSiteModel;
 import de.hybris.platform.catalog.CatalogVersionService;
@@ -42,7 +42,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 

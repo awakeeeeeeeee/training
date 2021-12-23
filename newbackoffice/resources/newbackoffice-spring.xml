@@ -89,5 +89,7 @@
         <property name="mediaService" ref="mediaService"/>
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
     </bean>
+
+    <bean id="DefaultUIService" class="com.training.service.impl.DefaultUIService"/>
 			
 </beans>

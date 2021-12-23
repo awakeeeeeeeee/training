@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.training.controller.security;
+package com.training.security;
 
 import de.hybris.platform.servicelayer.session.SessionService;
 import de.hybris.platform.servicelayer.user.UserService;
